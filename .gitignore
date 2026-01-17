@@ -3,7 +3,7 @@ venv/
 
 *.pyc
 _pycache_/
-db.sqlite
+db.sqlite3
 
 media/
 
