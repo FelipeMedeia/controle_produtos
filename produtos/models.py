@@ -2,9 +2,14 @@ from django.db import models
 from django.utils import timezone
 
 class Produto(models.Model):
+
+    MARCAS_DISPONIVEIS_CHOICES = (("oboticario", "OBoticario"),("natura", "Natura"),("eudora", "Eudora"),("blossom", "Blossom"),)
+    GENERO_CHOICES = (("masculino", "Masculino"),("feminino", "Feminino"),("unissex", "Unissex"),)
+
     nome = models.CharField(max_length=150)
-    marca = models.CharField(max_length=100,blank=True,null=True)
+    marca = models.CharField(max_length=10,choices=MARCAS_DISPONIVEIS_CHOICES,default='Não especificado')
     tamanho = models.CharField(max_length=50,blank=True,null=True)
+    genero = models.CharField(max_length=10,choices=GENERO_CHOICES, default='Unissex')
 
     preco_normal = models.DecimalField(max_digits=10,decimal_places=2)
     preco_descontado = models.DecimalField(max_digits=10,decimal_places=2,null=True)
@@ -16,7 +21,7 @@ class Produto(models.Model):
 
     criado_em = models.DateTimeField(default=timezone.now)
 
-    def _str_(self):
+    def __str__(self):
         return self.nome
     
     def preco_avista(self):
