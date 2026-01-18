@@ -47,4 +47,4 @@ class ItemVenda(models.Model):
         
         super().save(*args,**kwargs)
 
-        self.venda.calcular_total
+        self.venda.calcular_total()

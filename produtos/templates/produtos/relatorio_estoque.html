@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relatório de Estoque</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; width: 90%; margin-bottom: 30px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        h2 { margin-top: 40px; }
+        img { max-width: 60px; max-height: 60px; }
+        tfoot tr th { background-color: #e0e0e0; }
+    </style>
+</head>
+<body>
+    <h1>Relatório de Estoque por Marca</h1>
+
+    {% for grupo in relatorio %}
+        <h2>Marca: {{ grupo.marca }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagem</th>
+                    <th>Produto</th>
+                    <th>Quantidade em Estoque</th>
+                    <th>Preço Revista</th>
+                    <th>Preço Unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in grupo.produtos %}
+                <tr>
+                    <td>
+                        {% if produto.foto_url %}
+                            <img src="{{ produto.foto_url }}" alt="{{ produto.nome }}">
+                        {% else %}
+                            Sem foto
+                        {% endif %}
+                    </td>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.quantidade_estoque }}</td>
+                    <td>{{ produto.preco_base|floatformat:2 }}</td>
+                    <td>{{ produto.preco_normal|floatformat:2 }}</td>
+                    <td>{{ produto.subtotal|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">Total Marca:</th>
+                    <th>{{ grupo.total_quantidade }}</th>
+                    <th>-</th>
+                    <th>-</th>
+                    <th>{{ grupo.total_valor|floatformat:2 }}</th>
+                </tr>
+            </tfoot>
+        </table>
+    {% endfor %}
+
+    <h2>Total Geral</h2>
+    <p>Quantidade total em estoque: {{ total_geral_q }}</p>
+    <p>Valor total do estoque: {{ total_geral_v|floatformat:2 }}</p>
+</body>
+</html>
